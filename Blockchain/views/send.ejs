@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">H-COIN</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="index.html">Send Money</a></li>
+      <li><a href="request.html">Request Money</a></li>
+      <li><a href="about_us.html">About Us</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <h1>My First Bootstrap Page</h1>
+  <p>Resize this responsive page to see the effect!</p> 
+</div>
+
+
+<div class="container">
+  <form class="form-horizontal" role="form" method="post" action="/sendtx">
+    <fieldset>
+      <legend>Send</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Private Key</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="prtkey" id="prtkey" placeholder="Private Key">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Public Key</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="pubkey" id="pubkey" placeholder="Public Key">
+        </div>
+      </div>
+
+       <div class="form-group">
+        <label class="col-sm-3 control-label">Receiver Address</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="radd" id="radd" placeholder="Recevier Address">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Amount</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" name="amt" id="amt" placeholder="Amount">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <button type="submit" class="btn btn-success">Pay Now</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+
+
+
+</body>
+</html>
