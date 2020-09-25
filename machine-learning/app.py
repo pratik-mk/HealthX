@@ -23,6 +23,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
+    public_key = db.Column(db.String(80),unique=True)
+    private_key = db.Column(db.String(80),unique=True)
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -37,6 +40,8 @@ class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    private_key= StringField('private_key',validators=[InputRequired(),Length(64)])
+    public_key= StringField('public_key',validators=[InputRequired(),Length(42)])
 
 
 @app.route('/')
@@ -65,7 +70,7 @@ def signup():
 
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password,private_key=form.private_key.data,public_key=form.public_key.data)
         db.session.add(new_user)
         db.session.commit()
 
