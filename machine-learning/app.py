@@ -6,6 +6,8 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import balance
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -79,9 +81,12 @@ def signup():
 
     return render_template('signup.html', form=form)
 
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
+
     return render_template('dashboard.html', name=current_user.username)
 
 @app.route('/logout')
