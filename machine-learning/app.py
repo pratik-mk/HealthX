@@ -87,7 +87,7 @@ def signup():
 @login_required
 def dashboard():
 
-    return render_template('dashboard.html', name=current_user.username)
+    return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key))
 
 @app.route('/logout')
 @login_required
