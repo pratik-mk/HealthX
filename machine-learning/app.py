@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm 
 from wtforms import StringField, PasswordField, BooleanField
@@ -7,12 +7,19 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import balance
-
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+import os
 
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///F:\\project\\HealthX\\machine-learning\\database\\database.db'
 #F:\project\HealthX\machine-learning\building_user_login_system-master\finish
+photos = UploadSet('photos', IMAGES)
+app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+configure_uploads(app, photos)
 
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
@@ -83,11 +90,17 @@ def signup():
 
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET','POST'])
 @login_required
 def dashboard():
-
-    return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key))
+	if request.method == 'POST' and 'photo' in request.files:
+		f = photos.save(request.files['photo'])
+		path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], f)
+		print(path)
+		os.remove(path)
+		print("file delete")
+		return '<h1> file uploaded</h1>'
+	return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key))
 
 @app.route('/logout')
 @login_required
