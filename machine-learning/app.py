@@ -11,6 +11,12 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 import os
+# Keras
+import tensorflow as tf 
+from keras.models import load_model
+from keras.preprocessing import image
+from keras.applications.vgg16 import preprocess_input
+import numpy as np 
 
 app = Flask(__name__)
 
@@ -51,6 +57,25 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     private_key= StringField('private_key',validators=[InputRequired(),Length(64)])
     public_key= StringField('public_key',validators=[InputRequired(),Length(42)])
+
+model = load_model("models/pnumonia_resnet.h5")
+def pred_img(path):
+	img = image.load_img(path, target_size=(224, 224))
+	x = image.img_to_array(img)
+	x = np.expand_dims(x, axis=0)
+	img_data = preprocess_input(x)
+	classes = model.predict(img_data)
+	New_pred = np.argmax(classes, axis=1)
+	str1 = "Normal"
+	str2 = "Pnumonia"
+	if New_pred==[1]:
+		return str1
+	else:
+		return str2
+
+
+
+	
 
 
 @app.route('/')
@@ -93,14 +118,14 @@ def signup():
 @app.route('/dashboard', methods=['GET','POST'])
 @login_required
 def dashboard():
+	preds = ""
 	if request.method == 'POST' and 'photo' in request.files:
 		f = photos.save(request.files['photo'])
 		path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], f)
 		print(path)
+		preds = pred_img(path)
 		os.remove(path)
-		print("file delete")
-		return '<h1> file uploaded</h1>'
-	return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key))
+	return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key), preds=preds)
 
 @app.route('/logout')
 @login_required
