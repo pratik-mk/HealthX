@@ -28,23 +28,24 @@ app.get('/', function (req, res) {
 
 });
 
-app.get('/sendtx', function (req, res) {
+app.get('/send_tx', function (req, res) {
 
     res.status(200).render('send');
 
 });
 
-app.post('/sendtx', function (req, res) {
+app.get('/sendtx', function (req, res) {
 
 
-    var publickey = req.body.pubkey;//'0xd2E2fA7904d28d162E4d00aa1837C6597622f40A';                   
-    var privateKey = Buffer.from(req.body.prtkey, 'hex');//'55ce8dedffaa3d7272fc8ff8687acfca72b28f06712697f61c7d71b1b12bf6bf'
-    var recevier = req.body.radd;//'';
-    var amount = web3js.utils.toHex(req.body.amt);
+    var publickey = req.query.pubkey;//'0xd2E2fA7904d28d162E4d00aa1837C6597622f40A';                   
+    var privateKey = Buffer.from(req.query.prtkey, 'hex');//'55ce8dedffaa3d7272fc8ff8687acfca72b28f06712697f61c7d71b1b12bf6bf'
+    var recevier = req.query.radd;//'';
+    var amount = web3js.utils.toHex(req.query.amt);
 
     // console.log(publickey, privateKey, recevier, amount);
     test(publickey, privateKey, recevier, amount);
-    res.status(200).render('send');
+    // res.status(200).render('send');
+    res.redirect('http://127.0.0.1:5000/tran_success');
 });
 
 

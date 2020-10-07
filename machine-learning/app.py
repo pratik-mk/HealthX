@@ -91,7 +91,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dash'))
 
         return '<h1>Invalid username or password</h1>'
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
@@ -115,7 +115,7 @@ def signup():
 
 
 
-@app.route('/dashboard', methods=['GET','POST'])
+@app.route('/tran_success', methods=['GET','POST'])
 @login_required
 def dashboard():
 	preds = ""
@@ -127,6 +127,18 @@ def dashboard():
 		os.remove(path)
 	return render_template('dashboard.html', name=current_user.username, bal=balance.bal(current_user.public_key), preds=preds)
 
+# start
+@app.route('/dash', methods=['GET'])
+@login_required
+def dash():
+    return render_template('dash.html')
+
+@app.route('/initiate_payment', methods=['GET'])
+@login_required
+def initiate_payment():
+    return redirect("http://localhost:3000/send_tx", code=302)
+# end
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -135,3 +147,5 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
