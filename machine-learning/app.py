@@ -131,21 +131,14 @@ def dashboard():
 @app.route('/dash', methods=['GET'])
 @login_required
 def dash():
-<<<<<<< Updated upstream
-    return render_template('dash.html')
-=======
     return render_template('dash.html', name=current_user.username, bal=balance.bal(current_user.public_key))
->>>>>>> Stashed changes
+
 
 @app.route('/initiate_payment', methods=['GET'])
 @login_required
 def initiate_payment():
     return redirect("http://localhost:3000/send_tx", code=302)
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
 # end
 
 @app.route('/logout')
