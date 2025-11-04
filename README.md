@@ -1,5 +1,8 @@
 
 # HealthX (Healthcare System using Blockchain and Artificial Intelligence)
+
+[Research Paper](https://ieeexplore.ieee.org/abstract/document/9697213)
+
 A platform built on the Ethereum blockchain utilizing ERC-20 token standards. This cryptocurrency is specifically designed for the healthcare industry and provides a seamless way for users to access and utilize various healthcare services and make healthcare services more affordable and available to everyone.
 
 ## Features
@@ -11,4 +14,3 @@ A platform built on the Ethereum blockchain utilizing ERC-20 token standards. Th
 
 ## Contributing
 If you would like to contribute to the development of this project, feel free to submit a pull request.
-
